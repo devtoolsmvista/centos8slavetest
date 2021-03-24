@@ -50,7 +50,6 @@ RUN sed -i 's|session    required     pam_loginuid.so|session    optional     pa
     && /usr/bin/ssh-keygen -A \
     && echo export JAVA_HOME="/`alternatives  --display java | grep best | cut -d "/" -f 2-6`" >> /etc/environment
 
-RUN chown -R jenkins:jenkins $JENKINS_HOME 
 RUN chmod +w /etc/sudoers; echo "jenkins	ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers; chmod -w /etc/sudoers
 RUN sed -i -e 's/Defaults    requiretty.*/ #Defaults    requiretty/g' /etc/sudoers
 RUN ln -s java-1.8.0 /usr/lib/jvm/java-1.8.0-openjdk
@@ -60,6 +59,7 @@ COPY authorized_keys /root/.ssh
 COPY i18n /etc/sysconfig/i18n
 COPY limits-90-nproc.conf /etc/security/limits.d/90-nproc.conf
 
+RUN touch $JENKINS_HOME/.gitconfig; chown -R jenkins:jenkins $JENKINS_HOME 
 USER jenkins
 RUN git config --global user.email "jenkins@mvista.com"
 RUN git config --global user.name "Jenkins Continuous Build server"
