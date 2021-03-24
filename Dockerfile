@@ -59,12 +59,12 @@ COPY authorized_keys /root/.ssh
 COPY i18n /etc/sysconfig/i18n
 COPY limits-90-nproc.conf /etc/security/limits.d/90-nproc.conf
 
-RUN touch $JENKINS_HOME/.gitconfig; chown -R jenkins:jenkins $JENKINS_HOME 
-USER jenkins
-RUN git config --global user.email "jenkins@mvista.com"
-RUN git config --global user.name "Jenkins Continuous Build server"
+RUN chown -R jenkins:jenkins $JENKINS_HOME 
+#USER jenkins
+#RUN git config --global user.email "jenkins@mvista.com"
+#RUN git config --global user.name "Jenkins Continuous Build server"
 
-USER root
+#USER root
 RUN ln -s $JENKINS_HOME /var/jenkins_home
 # Adjust storage.conf to enable Fuse storage.
 ADD https://raw.githubusercontent.com/containers/buildah/master/contrib/buildahimage/stable/containers.conf /etc/containers/
